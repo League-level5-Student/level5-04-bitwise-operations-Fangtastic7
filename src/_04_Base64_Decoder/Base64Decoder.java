@@ -37,6 +37,11 @@ public class Base64Decoder {
 	//1. Complete this method so that it returns the the element in
 	//   the base64Chars array that corresponds to the passed in char.
 	public static byte convertBase64Char(char c){
+		for(int i=0; i<base64Chars.length;i++) {
+			if(base64Chars[i]==c) {
+				return (byte) i;
+			}
+		}
 		return 0;
 	}
 	
@@ -44,12 +49,68 @@ public class Base64Decoder {
 	//   characters long and return an array of 3 bytes (24 bits). The byte 
 	//   array should be the binary value of the encoded characters.
 	public static byte[] convert4CharsTo24Bits(String s){
-		return null;
+		String characters = "";
+		for(int z =0;z < s.length();z++) {
+			for(int i=0; i<base64Chars.length;i++) {
+				if(base64Chars[i]==s.charAt(z)) {
+					String phrase = printByteBinary( (byte) i);
+					  characters += phrase;
+					//  System.out.println(characters);
+				}
+			}
+			}
+		int x = 0;
+		byte[] array = new byte[3];
+		for(int i=0; i <characters.length()/8; i++) {
+			String bnumber =  characters.substring(i*8, (i * 8) + 8);
+			convertdecimal(bnumber, array, x);
+			x++;
+		}
+		return array;
+	}
+	
+	private static byte[] convertdecimal(String bnumber, byte[] array, int counter) {
+		// TODO Auto-generated method stub
+		int total = bnumber.length();
+		int sum = 0;
+		for(int i=0;i < total;i++) {
+			if(bnumber.charAt(bnumber.length()-1-i)=='1') {
+				sum = (int) (sum + Math.pow(2, i));
+			} 
+		}
+		array[counter] = (byte) sum;
+		return array;
+	}
+	
+	public static String printByteBinary(byte b) {
+		  StringBuilder sb = new StringBuilder();
+		    for (int i = 7; i >= 0; --i) {
+		        sb.append(b >>> i & 1);
+		    }
+		    sb.delete(0,2);
+		    return sb.toString();
 	}
 	
 	//3. Complete this method so that it takes in a string of any length
 	//   and returns the full byte array of the decoded base64 characters.
-	public static byte[] base64StringToByteArray(String file) {
-		return null;
+	public static byte[] base64StringToByteArray(String s) {
+		String characters = "";
+		for(int z =0;z < s.length();z++) {
+			for(int i=0; i<base64Chars.length;i++) {
+				if(base64Chars[i]==s.charAt(z)) {
+					String phrase = printByteBinary( (byte) i);
+					  characters += phrase;
+					//  System.out.println(characters);
+				}
+			}
+			}
+		int x = 0;
+		byte[] array = new byte[characters.length()/3];
+		for(int i=0; i <characters.length()/8; i++) {
+			String bnumber =  characters.substring(i*8, (i * 8) + 8);
+			convertdecimal(bnumber, array, x);
+			x++;
+		}
+		return array;
 	}
 }

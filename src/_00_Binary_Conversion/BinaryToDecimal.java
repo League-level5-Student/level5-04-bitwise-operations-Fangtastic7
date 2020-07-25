@@ -25,5 +25,19 @@ public class BinaryToDecimal {
 				    010110 in binary is equal to 22 in decimal!
 		 
 		 */
+		String bnumber= "01010";
+		convertdecimal(bnumber);
+	}
+
+	private static void convertdecimal(String bnumber) {
+		// TODO Auto-generated method stub
+		int total = bnumber.length();
+		int sum = 0;
+		for(int i=0;i < total;i++) {
+			if(bnumber.charAt(bnumber.length()-1-i)=='1') {
+				sum = (int) (sum + Math.pow(2, i));
+			} 
+		}
+		System.out.println(sum);
 	}
 }
